@@ -1,12 +1,12 @@
-import {Home, HomeProps} from './Home/Home.tsx';
+import {Home, HomeProps} from './home/home.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {SignIn} from './SignIn/SignIn.tsx';
-import {MyList} from './MyList/MyList.tsx';
-import {MoviePage} from './MoviePage/MoviePage.tsx';
-import {MoviePageReviews} from './MoviePage/Reviews/MoviePageReviews.tsx';
-import {Player} from './Player/Player.tsx';
-import {NotFound} from './NotFound/NotFound.tsx';
-import {PrivateRoute} from "./PrivateRoute/PrivateRoute.tsx";
+import {SignIn} from './sign-in/sign-in.tsx';
+import {MyList} from './my-list/my-list.tsx';
+import {MoviePage} from './movie-page/movie-page.tsx';
+import {MoviePageReviews} from './movie-page/reviews/movie-page-reviews.tsx';
+import {Player} from './player/player.tsx';
+import {NotFound} from './not-found/not-found.tsx';
+import {PrivateRoute} from './private-route/private-route.tsx';
 
 
 type Props = HomeProps
