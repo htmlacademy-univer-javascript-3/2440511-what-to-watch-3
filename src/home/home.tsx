@@ -1,4 +1,4 @@
-import {FilmCard} from '../FilmCard/FilmCard.tsx';
+import {FilmCard} from '../film-card/film-card.tsx';
 
 
 const filmsData = [
