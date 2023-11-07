@@ -1,5 +1,5 @@
 import {getImgPath} from '../../helpers/ImgHelpers.ts';
-import {AddReviewForm} from "./form/add-review-form.tsx";
+import {AddReviewForm} from './form/add-review-form.tsx';
 
 
 interface Props {
