@@ -7,21 +7,26 @@ import {MoviePageReviews} from './movie-page/reviews/movie-page-reviews.tsx';
 import {Player} from './player/player.tsx';
 import {NotFound} from './not-found/not-found.tsx';
 import {PrivateRoute} from './private-route/private-route.tsx';
+import {filmsData} from '../mocks/films.ts';
+import {playerData} from '../mocks/player.ts';
+import {AddReview} from './add-review/add-review.tsx';
 
 
-type Props = HomeProps
-
-export function App(props: Props) {
+export function App(props: HomeProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Home {...props}/>}/>
+        <Route index element={<Home {...props} filmsData={filmsData}/>}/>
         <Route path='/login' element={<SignIn/>}/>
-        <Route path='/mylist' element={<PrivateRoute isAuthenticated={false}><MyList/></PrivateRoute>}/>
+        <Route path='/mylist' element={<PrivateRoute isAuthenticated={false}><MyList filmsData={filmsData}/></PrivateRoute>}/>
         <Route path='/films/:id' element={<MoviePage/>}>
           <Route path='review' element={<MoviePageReviews/>}/>
         </Route>
-        <Route path='/player/:id' element={<Player/>}/>
+        <Route path='/player/:id' element={
+          <Player {...playerData}/>
+        }
+        />
+        <Route path={'/tmp'} element={<AddReview filmImg={'A'} filmTitle={'a'} filmPoster={'d'}/>}/>
 
         <Route path='*' element={<NotFound/>}/>
       </Routes>
