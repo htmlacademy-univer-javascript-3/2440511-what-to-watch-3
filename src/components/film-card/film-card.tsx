@@ -3,11 +3,12 @@
 interface Props {
   filmTitle: string;
   imgName: string;
+  onMouseEnter: (key: string) => void;
 }
 
-export function FilmCard({filmTitle, imgName}: Props) {
+export function FilmCard({filmTitle, imgName, onMouseEnter}: Props) {
   return (
-    <article className="small-film-card catalog__films-card">
+    <article className="small-film-card catalog__films-card" onMouseEnter={() => onMouseEnter(filmTitle)}>
       <div className="small-film-card__image">
         <img src={`img/${imgName}`} alt={filmTitle} width="280" height="175"/>
       </div>

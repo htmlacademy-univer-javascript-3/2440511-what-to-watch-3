@@ -1,88 +1,14 @@
-import {FilmCard} from '../film-card/film-card.tsx';
-
-
-const filmsData = [
-  {
-    filmTitle: 'Fantastic Beasts: The Crimes of Grindelwald',
-    imgName: 'fantastic-beasts-the-crimes-of-grindelwald.jpg',
-  },
-  {
-    filmTitle: 'Bohemian Rhapsody',
-    imgName: 'bohemian-rhapsody.jpg',
-  },
-  {
-    filmTitle: 'Macbeth',
-    imgName: 'macbeth.jpg',
-  },
-  {
-    filmTitle: 'Aviator',
-    imgName: 'aviator.jpg',
-  },
-  {
-    filmTitle: 'We need to talk about Kevin',
-    imgName: 'we-need-to-talk-about-kevin.jpg',
-  },
-  {
-    filmTitle: 'What We Do in the Shadows',
-    imgName: 'what-we-do-in-the-shadows.jpg',
-  },
-  {
-    filmTitle: 'Revenant',
-    imgName: 'revenant.jpg',
-  },
-  {
-    filmTitle: 'Johnny English',
-    imgName: 'johnny-english.jpg',
-  },
-  {
-    filmTitle: 'Shutter Island',
-    imgName: 'shutter-island.jpg',
-  },
-  {
-    filmTitle: 'Pulp Fiction',
-    imgName: 'pulp-fiction.jpg',
-  },
-  {
-    filmTitle: 'No Country for Old Men',
-    imgName: 'no-country-for-old-men.jpg',
-  },
-  {
-    filmTitle: 'Snatch',
-    imgName: 'snatch.jpg',
-  },
-  {
-    filmTitle: 'Moonrise Kingdom',
-    imgName: 'moonrise-kingdom.jpg',
-  },
-  {
-    filmTitle: 'Seven Years in Tibet',
-    imgName: 'seven-years-in-tibet.jpg',
-  },
-  {
-    filmTitle: 'Midnight Special',
-    imgName: 'midnight-special.jpg',
-  },
-  {
-    filmTitle: 'War of the Worlds',
-    imgName: 'war-of-the-worlds.jpg',
-  },
-  {
-    filmTitle: 'Dardjeeling Limited',
-    imgName: 'dardjeeling-limited.jpg',
-  },
-  {
-    filmTitle: 'Orlando',
-    imgName: 'orlando.jpg',
-  },
-];
-
+import {FilmsList, FilmsListProps} from '../films-list/films-list.tsx';
+import {useNavigate} from 'react-router-dom';
 export interface HomeProps {
   promoFilmName: string;
   promoFilmGenre: string;
   promoFilmReleaseDate: string;
 }
 
-export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate}: HomeProps){
+export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate, filmsData}: HomeProps & FilmsListProps){
+  const navigate = useNavigate();
+
   return (
     <>
       <section className="film-card">
@@ -101,7 +27,7 @@ export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate}: Home
             </a>
           </div>
 
-          <ul className="user-block">
+          <ul className="user-block" onClick={() => navigate('/login')}>
             <li className="user-block__item">
               <div className="user-block__avatar">
                 <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
@@ -127,13 +53,13 @@ export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate}: Home
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate('/player/1')}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button className="btn btn--list film-card__button" type="button" onClick={() => navigate('/mylist')}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -183,12 +109,7 @@ export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate}: Home
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {
-              filmsData.map((x) =>
-                <FilmCard key={x.filmTitle} filmTitle={x.filmTitle} imgName={x.imgName}/>)
-            }
-          </div>
+          <FilmsList filmsData={filmsData}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
