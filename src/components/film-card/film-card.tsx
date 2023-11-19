@@ -37,7 +37,7 @@ export function FilmCard({filmTitle, imgName, onMouseEnter}: Props) {
             <a className="small-film-card__link" href="film-page.html">{filmTitle}</a>
           </h3>
         </>}
-      {isPlayerVisible && <VideoPlayer/>}
+      {isPlayerVisible && <VideoPlayer height={175} width={260} sourceSrc={'src/mocks/video/sample_video.mp4'}/>}
     </article>
   );
 }

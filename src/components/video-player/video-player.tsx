@@ -1,9 +1,15 @@
 
 
-export function VideoPlayer(){
+interface Props {
+  height: number;
+  width: number;
+  sourceSrc: string;
+}
+
+export function VideoPlayer({height, width, sourceSrc}: Props){
   return (
-    <video height={175} width={260} controls autoPlay>
-      <source src={'src/mocks/video/sample_video.mp4'}></source>
+    <video height={height} width={width} controls autoPlay>
+      <source src={sourceSrc}></source>
     </video>
   );
 }
