@@ -1,9 +1,9 @@
 import {MoviePageTabs} from './tabs/movie-page-tabs.tsx';
-import {useState} from "react";
-import {MoviePageTabType} from "./tabs/movie-page-tab-type.tsx";
-import {MoviePageOverviewTab} from "./tabs/overview/movie-page-overview-tab.tsx";
-import {MoviePageDetailsTab} from "./tabs/details/movie-page-details-tab.tsx";
-import {MoviePageReviewsTab} from "./tabs/reviews/movie-page-reviews-tab.tsx";
+import {useState} from 'react';
+import {MoviePageTabType} from './tabs/movie-page-tab-type.tsx';
+import {MoviePageOverviewTab} from './tabs/overview/movie-page-overview-tab.tsx';
+import {MoviePageDetailsTab} from './tabs/details/movie-page-details-tab.tsx';
+import {MoviePageReviewsTab} from './tabs/reviews/movie-page-reviews-tab.tsx';
 
 
 export function MoviePage(){
