@@ -12,6 +12,7 @@ interface Props {
 export function FilmsByGenrePanel({genres}: Props){
   const [activeGenre, setActiveGenre] = useState<string>('');
   const [activeFilms, setActiveFilms] = useState<{filmTitle: string; imgName: string}[]>([]);
+  const [filmsCount, setFilmsCount] = useState(8);
 
   const updateGenreAndFilmsFromStore = () => {
     const state = store.getState();
@@ -24,6 +25,10 @@ export function FilmsByGenrePanel({genres}: Props){
   const onGenreTabClick = (genre: string) => {
     store.dispatch(changeGenreAction(genre));
     updateGenreAndFilmsFromStore();
+  };
+
+  const onShowMoreButtonClick = () => {
+    setFilmsCount(filmsCount + 8);
   };
 
   return (
@@ -41,11 +46,12 @@ export function FilmsByGenrePanel({genres}: Props){
         )}
       </ul>
 
-      <FilmsList filmsData={activeFilms}/>
+      <FilmsList filmsData={activeFilms} filmsCount={filmsCount}/>
 
-      <div className="catalog__more">
-        <button className="catalog__button" type="button">Show more</button>
-      </div>
+      {activeFilms.length > filmsCount &&
+        <div className="catalog__more">
+          <button className="catalog__button" type="button" onClick={onShowMoreButtonClick}>Show more</button>
+        </div>}
     </section>
   );
 }
