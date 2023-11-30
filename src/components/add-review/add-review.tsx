@@ -1,4 +1,4 @@
-import {getImgPath} from '../../helpers/ImgHelpers.ts';
+import {getImgPath} from '../../helpers/img-helpers.ts';
 import {AddReviewForm} from './form/add-review-form.tsx';
 
 
