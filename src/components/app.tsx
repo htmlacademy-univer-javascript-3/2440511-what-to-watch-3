@@ -9,14 +9,13 @@ import {NotFound} from './not-found/not-found.tsx';
 import {PrivateRoute} from './private-route/private-route.tsx';
 import {filmsData} from '../mocks/films.ts';
 import {playerData} from '../mocks/player.ts';
-import {AddReview} from './add-review/add-review.tsx';
 
 
 export function App(props: HomeProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Home {...props} filmsData={filmsData}/>}/>
+        <Route index element={<Home {...props}/>}/>
         <Route path='/login' element={<SignIn/>}/>
         <Route path='/mylist' element={<PrivateRoute isAuthenticated={false}><MyList filmsData={filmsData}/></PrivateRoute>}/>
         <Route path='/films/:id' element={<MoviePage/>}>
@@ -26,8 +25,6 @@ export function App(props: HomeProps) {
           <Player {...playerData}/>
         }
         />
-        <Route path={'/tmp'} element={<AddReview filmImg={'A'} filmTitle={'a'} filmPoster={'d'}/>}/>
-
         <Route path='*' element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>
