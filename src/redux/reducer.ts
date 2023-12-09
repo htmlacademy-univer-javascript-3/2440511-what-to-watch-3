@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeGenreAction, setAllFilmsAction, setPromoFilm} from './action.ts';
+import {changeGenreAction, setAllFilmsAction, setIsLoadingAction, setPromoFilmAction} from './action.ts';
 import {FilmPreview, PromoFilm} from '../api/interfaces.ts';
 
 export interface StoreState {
@@ -8,6 +8,7 @@ export interface StoreState {
   filmsByGenre: FilmPreview[];
   allFilms: FilmPreview[];
   promoFilm?: PromoFilm;
+  isLoading: boolean;
 }
 
 const initialState: StoreState = {
@@ -15,6 +16,7 @@ const initialState: StoreState = {
   allGenres: [],
   filmsByGenre: [],
   allFilms: [],
+  isLoading: false
 };
 
 export const updateStore = createReducer<StoreState>(initialState, (builder) => {
@@ -27,7 +29,10 @@ export const updateStore = createReducer<StoreState>(initialState, (builder) => 
       state.allFilms = action.payload;
       state.allGenres = ['All genres'].concat(Array.from(new Set(action.payload.map((x) => x.genre))));
     })
-    .addCase(setPromoFilm, (state, action) => {
+    .addCase(setIsLoadingAction, (state, action) => {
+      state.isLoading = action.payload;
+    })
+    .addCase(setPromoFilmAction, (state, action) => {
       state.promoFilm = action.payload;
     });
 });

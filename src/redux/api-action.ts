@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {setAllFilmsAction, setPromoFilm} from './action.ts';
+import {setAllFilmsAction, setPromoFilmAction} from './action.ts';
 import {store} from './store.ts';
 import {FilmPreview, PromoFilm} from '../api/interfaces.ts';
 import {AxiosInstance} from 'axios';
@@ -23,6 +23,6 @@ export const getAllFilms = createAsyncThunk<void, undefined, Config>('get-all-fi
 export const getPromoFilm = createAsyncThunk<void, undefined, Config>('get-promo-film',
   async (_, {dispatch, extra: api}) => {
     const {data} = await api.get<PromoFilm>(routes.PromoFilm);
-    dispatch(setPromoFilm(data));
+    dispatch(setPromoFilmAction(data));
   }
 );
