@@ -1,20 +1,19 @@
 import {useNavigate} from 'react-router-dom';
 import {FilmsByGenrePanel} from './films-by-genre-panel/films-by-genre-panel.tsx';
-import {allGenresNames} from '../../mocks/films.ts';
-export interface HomeProps {
-  promoFilmName: string;
-  promoFilmGenre: string;
-  promoFilmReleaseDate: string;
-}
+import {useSelector} from 'react-redux';
+import {StoreState} from '../../redux/reducer.ts';
+import {PromoFilm} from '../../api/interfaces.ts';
 
-export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate}: HomeProps){
+
+export function Home(){
   const navigate = useNavigate();
+  const promoFilm = useSelector<StoreState, PromoFilm | undefined>((x) => x.promoFilm);
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -43,14 +42,14 @@ export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate}: Home
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={promoFilm?.posterImage} alt={promoFilm?.name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{promoFilmName}</h2>
+              <h2 className="film-card__title">{promoFilm?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{promoFilmGenre}</span>
-                <span className="film-card__year">{promoFilmReleaseDate}</span>
+                <span className="film-card__genre">{promoFilm?.genre}</span>
+                <span className="film-card__year">{promoFilm?.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -75,7 +74,7 @@ export function Home({promoFilmName, promoFilmGenre, promoFilmReleaseDate}: Home
 
       <div className="page-content">
 
-        <FilmsByGenrePanel genres={allGenresNames}/>
+        <FilmsByGenrePanel />
 
         <footer className="page-footer">
           <div className="logo">

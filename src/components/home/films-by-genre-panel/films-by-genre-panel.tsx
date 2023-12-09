@@ -1,29 +1,34 @@
 import {FilmsList} from '../../films-list/films-list.tsx';
 import {useEffect, useState} from 'react';
-import {store} from '../../../redux/store.ts';
 import cn from 'classnames';
 import {changeGenreAction} from '../../../redux/action.ts';
+import {useDispatch, useSelector} from 'react-redux';
+import {FilmPreview} from '../../../api/interfaces.ts';
+import {StoreState} from '../../../redux/reducer.ts';
 
 
-interface Props {
-  genres: string[];
-}
-
-export function FilmsByGenrePanel({genres}: Props){
+export function FilmsByGenrePanel(){
   const [activeGenre, setActiveGenre] = useState<string>('');
-  const [activeFilms, setActiveFilms] = useState<{filmTitle: string; imgName: string}[]>([]);
+  const [genres, setGenres] = useState<string[]>([]);
+  const [activeFilms, setActiveFilms] = useState<FilmPreview[]>([]);
   const [filmsCount, setFilmsCount] = useState(8);
 
+  const dispatch = useDispatch();
+  const storeState = useSelector<StoreState, StoreState>((x) => x);
+
   const updateGenreAndFilmsFromStore = () => {
-    const state = store.getState();
-    setActiveGenre(state.genre);
-    setActiveFilms(state.films);
+    setActiveGenre(storeState.selectedGenre);
+    setActiveFilms(storeState.filmsByGenre);
   };
 
-  useEffect(updateGenreAndFilmsFromStore, []);
+  useEffect(() => {
+    setGenres(storeState.allGenres);
+    updateGenreAndFilmsFromStore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeState]);
 
   const onGenreTabClick = (genre: string) => {
-    store.dispatch(changeGenreAction(genre));
+    dispatch(changeGenreAction(genre));
     updateGenreAndFilmsFromStore();
   };
 

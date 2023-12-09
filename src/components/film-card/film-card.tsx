@@ -5,10 +5,11 @@ import {useState} from 'react';
 interface Props {
   filmTitle: string;
   imgName: string;
+  previewVideoLink: string;
   onMouseEnter: (key: string) => void;
 }
 
-export function FilmCard({filmTitle, imgName, onMouseEnter}: Props) {
+export function FilmCard({filmTitle, imgName, previewVideoLink, onMouseEnter}: Props) {
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
 
@@ -31,13 +32,13 @@ export function FilmCard({filmTitle, imgName, onMouseEnter}: Props) {
       {!isPlayerVisible &&
         <>
           <div className="small-film-card__image">
-            <img src={`img/${imgName}`} alt={filmTitle} width="280" height="175"/>
+            <img src={imgName} alt={filmTitle} width="280" height="175"/>
           </div>
           <h3 className="small-film-card__title">
             <a className="small-film-card__link" href="film-page.html">{filmTitle}</a>
           </h3>
         </>}
-      {isPlayerVisible && <VideoPlayer height={175} width={260} sourceSrc={'src/mocks/video/sample_video.mp4'}/>}
+      {isPlayerVisible && <VideoPlayer height={175} width={260} sourceSrc={previewVideoLink}/>}
     </article>
   );
 }
