@@ -1,5 +1,6 @@
 
 export const routes = {
   AllFilms: '/films',
-  PromoFilm: '/promo'
+  PromoFilm: '/promo',
+  Login: '/login'
 };

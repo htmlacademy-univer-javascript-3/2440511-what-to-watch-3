@@ -1,6 +1,12 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeGenreAction, setAllFilmsAction, setIsLoadingAction, setPromoFilmAction} from './action.ts';
-import {FilmPreview, PromoFilm} from '../api/interfaces.ts';
+import {
+  changeGenreAction,
+  setAllFilmsAction,
+  setAuthInfoAction,
+  setIsLoadingAction,
+  setPromoFilmAction
+} from './action.ts';
+import {AuthInfo, FilmPreview, PromoFilm} from '../api/interfaces.ts';
 
 export interface StoreState {
   selectedGenre: string;
@@ -9,6 +15,7 @@ export interface StoreState {
   allFilms: FilmPreview[];
   promoFilm?: PromoFilm;
   isLoading: boolean;
+  authInfo?: AuthInfo;
 }
 
 const initialState: StoreState = {
@@ -31,6 +38,9 @@ export const updateStore = createReducer<StoreState>(initialState, (builder) => 
     })
     .addCase(setIsLoadingAction, (state, action) => {
       state.isLoading = action.payload;
+    })
+    .addCase(setAuthInfoAction, (state, action) => {
+      state.authInfo = action.payload;
     })
     .addCase(setPromoFilmAction, (state, action) => {
       state.promoFilm = action.payload;
