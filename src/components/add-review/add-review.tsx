@@ -1,19 +1,34 @@
-import {getImgPath} from '../../helpers/img-helpers.ts';
 import {AddReviewForm} from './form/add-review-form.tsx';
+import {useNavigate, useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {FilmInfo} from '../../api/interfaces.ts';
+import {getFilmInfo} from '../../redux/api-action.ts';
+import {useMyDispatch} from '../../redux/hooks.ts';
+import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 
 
-interface Props {
-  filmTitle: string;
-  filmImg: string;
-  filmPoster: string;
-}
+export function AddReview(){
+  const {id} = useParams<{id: string}>();
+  const [filmInfo, setFilmInfo] = useState<FilmInfo>();
+  const dispatch = useMyDispatch();
+  const navigate = useNavigate();
 
-export function AddReview({filmImg, filmTitle, filmPoster}: Props){
+  useEffect(() => {
+    dispatch(getFilmInfo(id ?? '')).then(x => {
+      const data = x.payload as (FilmInfo | undefined);
+      if (data) {
+        setFilmInfo(data);
+      } else {
+        navigate('/not-found');
+      }
+    });
+  }, []);
+
   return (
-    <section className="film-card film-card--full">
+    <section className="film-card film-card--full" style={{backgroundColor: filmInfo?.backgroundColor}}>
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={getImgPath(filmImg)} alt={filmTitle}/>
+          <img src={filmInfo?.backgroundImage} alt={filmInfo?.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -30,32 +45,22 @@ export function AddReview({filmImg, filmTitle, filmPoster}: Props){
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{filmTitle}</a>
+                <a href="film-page.html" className="breadcrumbs__link">{filmInfo?.name}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
               </li>
             </ul>
           </nav>
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <UserSignBlock/>
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={getImgPath(filmPoster)} alt={filmTitle} width="218" height="327"/>
+          <img src={filmInfo?.posterImage} alt={filmInfo?.name} width="218" height="327"/>
         </div>
       </div>
 
-      <AddReviewForm/>
+      <AddReviewForm filmId={id ?? ''}/>
 
     </section>
   );
