@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {SignIn} from './sign-in/sign-in.tsx';
 import {MyList} from './my-list/my-list.tsx';
 import {MoviePage} from './movie-page/movie-page.tsx';
-import {MoviePageReviews} from './movie-page/reviews/movie-page-reviews.tsx';
 import {Player} from './player/player.tsx';
 import {NotFound} from './not-found/not-found.tsx';
 import {PrivateRoute} from './private-route/private-route.tsx';
@@ -15,6 +14,7 @@ import {Loader} from '@skbkontur/react-ui';
 import {useSelector} from 'react-redux';
 import {StoreState} from '../redux/reducer.ts';
 import {setIsLoadingAction} from '../redux/action.ts';
+import {AddReview} from "./add-review/add-review.tsx";
 
 export function App() {
   const dispatch = useMyDispatch();
@@ -34,9 +34,8 @@ export function App() {
           <Route index element={<Home/>}/>
           <Route path='/login' element={<SignIn/>}/>
           <Route path='/mylist' element={<PrivateRoute><MyList/></PrivateRoute>}/>
-          <Route path='/films/:id' element={<MoviePage/>}>
-            <Route path='review' element={<MoviePageReviews/>}/>
-          </Route>
+          <Route path='/films/:id' element={<MoviePage/>}/>
+          <Route path='/films/:id/review' element={<PrivateRoute><AddReview/></PrivateRoute>}/>
           <Route path='/player/:id' element={
             <Player {...playerData}/>
           }

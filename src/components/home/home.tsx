@@ -2,16 +2,13 @@ import {useNavigate} from 'react-router-dom';
 import {FilmsByGenrePanel} from './films-by-genre-panel/films-by-genre-panel.tsx';
 import {useSelector} from 'react-redux';
 import {StoreState} from '../../redux/reducer.ts';
-import {AuthInfo, PromoFilm} from '../../api/interfaces.ts';
-import {useMyDispatch} from '../../redux/hooks.ts';
-import {setAuthInfoAction} from '../../redux/action.ts';
+import {PromoFilm} from '../../api/interfaces.ts';
+import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 
 
 export function Home(){
   const navigate = useNavigate();
-  const dispatch = useMyDispatch();
   const promoFilm = useSelector<StoreState, PromoFilm | undefined>((x) => x.promoFilm);
-  const authInfo = useSelector<StoreState, AuthInfo | undefined>(x => x.authInfo);
 
 
   return (
@@ -32,23 +29,7 @@ export function Home(){
             </a>
           </div>
 
-          <ul className="user-block">
-            {authInfo &&
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src={authInfo.avatarUrl} alt="User avatar" width="63" height="63"/>
-                </div>
-              </li>}
-            <li className="user-block__item" onClick={() => {
-              if (authInfo) {
-                dispatch(setAuthInfoAction(undefined));
-              }
-              navigate('/login');
-            }}
-            >
-              <a className="user-block__link">Sign {authInfo ? 'out' : 'in'}</a>
-            </li>
-          </ul>
+          <UserSignBlock/>
         </header>
 
         <div className="film-card__wrap">

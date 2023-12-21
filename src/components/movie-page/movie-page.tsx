@@ -1,20 +1,47 @@
 import {MoviePageTabs} from './tabs/movie-page-tabs.tsx';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {MoviePageTabType} from './tabs/movie-page-tab-type.tsx';
 import {MoviePageOverviewTab} from './tabs/overview/movie-page-overview-tab.tsx';
 import {MoviePageDetailsTab} from './tabs/details/movie-page-details-tab.tsx';
 import {MoviePageReviewsTab} from './tabs/reviews/movie-page-reviews-tab.tsx';
+import {useNavigate, useParams} from 'react-router-dom';
+import {FilmInfo} from '../../api/interfaces.ts';
+import {useMyDispatch} from '../../redux/hooks.ts';
+import {getFilmInfo} from '../../redux/api-action.ts';
+import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 
 
 export function MoviePage(){
   const [activeTab, setActiveTab] = useState(MoviePageTabType.Overview);
+  const [filmInfo, setFilmInfo] = useState<FilmInfo>();
+  const {id} = useParams<{id: string}>();
+  const navigate = useNavigate();
+  const dispatch = useMyDispatch();
+
+  useEffect(() => {
+    dispatch(getFilmInfo(id ?? '')).then(x => {
+      const data = x.payload as (FilmInfo | undefined);
+      if (data) {
+        setFilmInfo(data);
+      } else {
+        navigate('/not-found');
+      }
+    });
+  }, []);
+
+  const onAddReviewButtonClick = () => {
+    if (!filmInfo) {
+      return;
+    }
+    navigate(`/films/${filmInfo.id}/review`);
+  };
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full" style={{backgroundColor: filmInfo?.backgroundColor}}>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+            <img src={filmInfo?.backgroundImage} alt={filmInfo?.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -28,24 +55,15 @@ export function MoviePage(){
               </a>
             </div>
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
+            <UserSignBlock/>
           </header>
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{filmInfo?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{filmInfo?.genre}</span>
+                <span className="film-card__year">{filmInfo?.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -62,7 +80,7 @@ export function MoviePage(){
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <a className="btn film-card__button" onClick={onAddReviewButtonClick}>Add review</a>
               </div>
             </div>
           </div>
@@ -71,14 +89,14 @@ export function MoviePage(){
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={filmInfo?.posterImage} alt={filmInfo?.name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <MoviePageTabs defaultTab={activeTab} onTabClickCallback={setActiveTab}/>
-              {activeTab === MoviePageTabType.Overview && <MoviePageOverviewTab/>}
-              {activeTab === MoviePageTabType.Details && <MoviePageDetailsTab/>}
-              {activeTab === MoviePageTabType.Reviews && <MoviePageReviewsTab/>}
+              <MoviePageTabs defaultTab={activeTab} onTabClick={setActiveTab}/>
+              {activeTab === MoviePageTabType.Overview && filmInfo && <MoviePageOverviewTab {...filmInfo}/>}
+              {activeTab === MoviePageTabType.Details && filmInfo && <MoviePageDetailsTab {...filmInfo}/>}
+              {activeTab === MoviePageTabType.Reviews && filmInfo && <MoviePageReviewsTab filmId={filmInfo.id}/>}
             </div>
           </div>
         </div>
