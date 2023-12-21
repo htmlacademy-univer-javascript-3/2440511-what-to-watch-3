@@ -22,3 +22,10 @@ export interface PromoFilm {
   released: number;
   isFavorite: boolean;
 }
+
+export interface AuthInfo {
+  name: string;
+  avatarUrl: string;
+  email: string;
+  token: string;
+}

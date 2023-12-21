@@ -33,7 +33,7 @@ export function App() {
         <Routes>
           <Route index element={<Home/>}/>
           <Route path='/login' element={<SignIn/>}/>
-          <Route path='/mylist' element={<PrivateRoute isAuthenticated><MyList/></PrivateRoute>}/>
+          <Route path='/mylist' element={<PrivateRoute><MyList/></PrivateRoute>}/>
           <Route path='/films/:id' element={<MoviePage/>}>
             <Route path='review' element={<MoviePageReviews/>}/>
           </Route>
