@@ -9,10 +9,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <App
-      promoFilmName={'The Grand Budapest Hotel'}
-      promoFilmGenre={'Drama'}
-      promoFilmReleaseDate={'2014'}
-    />
+    <App/>
   </Provider>
 );

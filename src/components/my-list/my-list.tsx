@@ -1,13 +1,16 @@
-import {FilmsListProps} from '../films-list/films-list.tsx';
+import {FilmPreview} from '../../api/interfaces.ts';
+import {useSelector} from 'react-redux';
+import {StoreState} from '../../redux/reducer.ts';
 
-type Props = FilmsListProps
 
-export function MyList({filmsData}: Props){
+export function MyList(){
+  const filmsData = useSelector<StoreState, FilmPreview[]>((x) => x.allFilms);
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <div className="logo">
-          <a href="main.html" className="logo__link">
+          <a href="/" className="logo__link">
             <span className="logo__letter logo__letter--1">W</span>
             <span className="logo__letter logo__letter--2">T</span>
             <span className="logo__letter logo__letter--3">W</span>
@@ -34,15 +37,15 @@ export function MyList({filmsData}: Props){
           {
             filmsData.map((x) =>
               (
-                <article key={x.filmTitle} className="small-film-card catalog__films-card">
+                <article key={x.name} className="small-film-card catalog__films-card">
                   <div className="small-film-card__image">
-                    <img src={`img/${x.imgName}`}
-                      alt={x.filmTitle} width="280" height="175"
+                    <img src={x.previewImage}
+                      alt={x.name} width="280" height="175"
                     />
                   </div>
                   <h3 className="small-film-card__title">
                     <a className="small-film-card__link" href="film-page.html">
-                      {x.filmTitle}
+                      {x.name}
                     </a>
                   </h3>
                 </article>
