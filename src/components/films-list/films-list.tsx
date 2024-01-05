@@ -17,7 +17,7 @@ export function FilmsList({filmsData, filmsCount}: FilmsListProps & Props){
     <div className="catalog__films-list">
       {
         filmsData.slice(0, filmsCount).map((x) =>
-          <FilmCard key={x.name} filmTitle={x.name} imgName={x.previewImage} previewVideoLink={x.previewVideoLink} onMouseEnter={setActiveCard}/>)
+          <FilmCard key={x.name} filmId={x.id} filmTitle={x.name} imgName={x.previewImage} previewVideoLink={x.previewVideoLink} onMouseEnter={setActiveCard}/>)
       }
     </div>
   );

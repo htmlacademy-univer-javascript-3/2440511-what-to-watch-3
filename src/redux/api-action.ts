@@ -14,7 +14,10 @@ interface Config {
 }
 
 export const getAllFilms = createAsyncThunk<void, undefined, Config>('get-all-films',
-  async (_, {dispatch, extra: api}) => {
+  async (_, {dispatch, getState, extra: api}) => {
+    if (getState().allFilms.length > 0) {
+      return;
+    }
     const {data} = await api.get<FilmPreview[]>(ApiRoutes.AllFilms);
     dispatch(setAllFilmsAction(data));
   }

@@ -1,17 +1,20 @@
 import {VideoPlayer} from '../video-player/video-player.tsx';
 import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 
 interface Props {
+  filmId: string;
   filmTitle: string;
   imgName: string;
   previewVideoLink: string;
   onMouseEnter: (key: string) => void;
 }
 
-export function FilmCard({filmTitle, imgName, previewVideoLink, onMouseEnter}: Props) {
+export function FilmCard({filmId, filmTitle, imgName, previewVideoLink, onMouseEnter}: Props) {
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
+  const navigate = useNavigate();
 
 
   const onMouseEnterInternal = () => {
@@ -27,8 +30,14 @@ export function FilmCard({filmTitle, imgName, previewVideoLink, onMouseEnter}: P
     setIsPlayerVisible(false);
   };
 
+  const onClick = () => {
+    navigate(`/films/${ filmId}`);
+  };
+
   return (
-    <article className="small-film-card catalog__films-card" onMouseEnter={onMouseEnterInternal} onMouseLeave={onMouseLeaveInternal}>
+    <article className="small-film-card catalog__films-card" onMouseEnter={onMouseEnterInternal}
+      onMouseLeave={onMouseLeaveInternal} onClick={onClick}
+    >
       {!isPlayerVisible &&
         <>
           <div className="small-film-card__image">

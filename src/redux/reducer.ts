@@ -7,6 +7,7 @@ import {
   setPromoFilmAction
 } from './action.ts';
 import {AuthInfo, FilmPreview, PromoFilm} from '../api/interfaces.ts';
+import {ALL_GENRES_NAME} from '../constants/genres-constants.ts';
 
 export interface StoreState {
   selectedGenre: string;
@@ -30,11 +31,11 @@ export const updateStore = createReducer<StoreState>(initialState, (builder) => 
   builder
     .addCase(changeGenreAction, (state, action) => {
       state.selectedGenre = action.payload;
-      state.filmsByGenre = state.allFilms.filter((x) => x.genre === action.payload || action.payload === 'All genres');
+      state.filmsByGenre = state.allFilms.filter((x) => x.genre === action.payload || action.payload === ALL_GENRES_NAME);
     })
     .addCase(setAllFilmsAction, (state, action) => {
       state.allFilms = action.payload;
-      state.allGenres = ['All genres'].concat(Array.from(new Set(action.payload.map((x) => x.genre))));
+      state.allGenres = [ALL_GENRES_NAME].concat(Array.from(new Set(action.payload.map((x) => x.genre))));
     })
     .addCase(setIsLoadingAction, (state, action) => {
       state.isLoading = action.payload;
