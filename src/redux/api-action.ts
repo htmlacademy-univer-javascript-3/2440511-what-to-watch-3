@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {setAllFilmsAction, setAuthInfoAction, setPromoFilmAction} from './action.ts';
 import {store} from './store.ts';
-import {AuthInfo, FilmComment, FilmInfo, FilmPreview, PromoFilm} from '../api/interfaces.ts';
+import {AuthInfo, FilmComment, FilmInfo, FilmPreview, PromoFilm, SimilarFilmInfo} from '../api/interfaces.ts';
 import {AxiosInstance} from 'axios';
 import {ApiRoutes} from '../api/apiRoutes.ts';
 import {StoreState} from './reducer.ts';
@@ -60,5 +60,12 @@ export const postComment = createAsyncThunk<boolean, {filmId: string; comment: s
       {headers: {'X-Token': userToken}}).catch(() => undefined);
 
     return response !== undefined;
+  }
+);
+
+export const getSimilarFilms = createAsyncThunk<SimilarFilmInfo[], string, Config>('get-similar-films',
+  async (filmId, {extra: api}) => {
+    const {data} = await api.get<SimilarFilmInfo[]>(`${ApiRoutes.FilmInfo}/${filmId}/similar`);
+    return data;
   }
 );

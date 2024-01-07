@@ -44,7 +44,7 @@ export function FilmCard({filmId, filmTitle, imgName, previewVideoLink, onMouseE
             <img src={imgName} alt={filmTitle} width="280" height="175"/>
           </div>
           <h3 className="small-film-card__title">
-            <a className="small-film-card__link" href="film-page.html">{filmTitle}</a>
+            <a className="small-film-card__link">{filmTitle}</a>
           </h3>
         </>}
       {isPlayerVisible && <VideoPlayer height={175} width={260} sourceSrc={previewVideoLink}/>}

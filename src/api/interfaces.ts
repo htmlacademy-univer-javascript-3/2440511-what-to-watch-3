@@ -49,3 +49,11 @@ export interface FilmComment {
   comment: string;
   rating: number;
 }
+
+export interface SimilarFilmInfo {
+  id: string;
+  name: string;
+  previewImage: string;
+  previewVideoLink: string;
+  genre: string;
+}
