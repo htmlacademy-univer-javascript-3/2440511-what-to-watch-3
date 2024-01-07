@@ -15,7 +15,7 @@ export function UserSignBlock(){
   return (
     <ul className="user-block">
       {authInfo &&
-        <li className="user-block__item">
+        <li className="user-block__item" onClick={() => navigate('/mylist')}>
           <div className="user-block__avatar">
             <img src={authInfo.avatarUrl} alt="User avatar" width="63" height="63"/>
           </div>

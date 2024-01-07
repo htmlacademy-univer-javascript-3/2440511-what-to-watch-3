@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {StoreState} from '../../redux/reducer.ts';
 import {PromoFilm} from '../../api/interfaces.ts';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
+import {AddToMyListButton} from '../my-list/add-to-my-list-button/add-to-my-list-button.tsx';
 
 
 export function Home(){
@@ -53,13 +54,7 @@ export function Home(){
                     </svg>
                     <span>Play</span>
                   </button>}
-                <button className="btn btn--list film-card__button" type="button" onClick={() => navigate('/mylist')}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                {promoFilm && <AddToMyListButton filmId={promoFilm.id}/>}
               </div>
             </div>
           </div>

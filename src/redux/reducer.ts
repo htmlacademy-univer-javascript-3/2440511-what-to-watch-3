@@ -3,10 +3,10 @@ import {
   changeGenreAction,
   setAllFilmsAction,
   setAuthInfoAction,
-  setIsLoadingAction,
+  setIsLoadingAction, setMyFilmsAction,
   setPromoFilmAction
 } from './action.ts';
-import {AuthInfo, FilmPreview, PromoFilm} from '../api/interfaces.ts';
+import {AuthInfo, FilmPreview, FilmShortInfo, PromoFilm} from '../api/interfaces.ts';
 import {ALL_GENRES_NAME} from '../constants/genres-constants.ts';
 
 export interface StoreState {
@@ -17,6 +17,7 @@ export interface StoreState {
   promoFilm?: PromoFilm;
   isLoading: boolean;
   authInfo?: AuthInfo;
+  myList: FilmShortInfo[];
 }
 
 const initialState: StoreState = {
@@ -24,7 +25,8 @@ const initialState: StoreState = {
   allGenres: [],
   filmsByGenre: [],
   allFilms: [],
-  isLoading: false
+  isLoading: false,
+  myList: []
 };
 
 export const updateStore = createReducer<StoreState>(initialState, (builder) => {
@@ -42,6 +44,9 @@ export const updateStore = createReducer<StoreState>(initialState, (builder) => 
     })
     .addCase(setAuthInfoAction, (state, action) => {
       state.authInfo = action.payload;
+    })
+    .addCase(setMyFilmsAction, (state, action) => {
+      state.myList = action.payload;
     })
     .addCase(setPromoFilmAction, (state, action) => {
       state.promoFilm = action.payload;

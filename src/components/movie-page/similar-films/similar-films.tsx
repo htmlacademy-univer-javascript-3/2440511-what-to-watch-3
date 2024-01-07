@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {SimilarFilmInfo} from '../../../api/interfaces.ts';
+import {FilmShortInfo} from '../../../api/interfaces.ts';
 import {useMyDispatch} from '../../../redux/hooks.ts';
 import {getSimilarFilms} from '../../../redux/api-action.ts';
 import {useNavigate} from "react-router-dom";
@@ -10,18 +10,18 @@ interface Props {
 }
 
 export function SimilarFilms({filmId}: Props){
-  const [films, setFilms] = useState<SimilarFilmInfo[]>([]);
+  const [films, setFilms] = useState<FilmShortInfo[]>([]);
   const dispatch = useMyDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     async function setup() {
-      const filmsData = (await dispatch(getSimilarFilms(filmId))).payload as SimilarFilmInfo[];
+      const filmsData = (await dispatch(getSimilarFilms(filmId))).payload as FilmShortInfo[];
       setFilms(filmsData);
     }
 
     void setup();
-  }, []);
+  }, [filmId]);
 
   const goToFilm = (id: string) => {
     navigate(`/films/${id}`);

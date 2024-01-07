@@ -50,7 +50,7 @@ export interface FilmComment {
   rating: number;
 }
 
-export interface SimilarFilmInfo {
+export interface FilmShortInfo {
   id: string;
   name: string;
   previewImage: string;

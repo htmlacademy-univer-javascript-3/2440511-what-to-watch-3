@@ -10,6 +10,7 @@ import {useMyDispatch} from '../../redux/hooks.ts';
 import {getFilmInfo} from '../../redux/api-action.ts';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 import {SimilarFilms} from './similar-films/similar-films.tsx';
+import {AddToMyListButton} from '../my-list/add-to-my-list-button/add-to-my-list-button.tsx';
 
 
 export function MoviePage(){
@@ -79,13 +80,7 @@ export function MoviePage(){
                     </svg>
                     <span>Play</span>
                   </button>}
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                {filmInfo && <AddToMyListButton filmId={filmInfo.id}/>}
                 <a className="btn film-card__button" onClick={onAddReviewButtonClick}>Add review</a>
               </div>
             </div>

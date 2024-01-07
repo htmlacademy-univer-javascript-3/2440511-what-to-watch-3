@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {setAllFilmsAction, setAuthInfoAction, setPromoFilmAction} from './action.ts';
+import {setAllFilmsAction, setAuthInfoAction, setMyFilmsAction, setPromoFilmAction} from './action.ts';
 import {store} from './store.ts';
-import {AuthInfo, FilmComment, FilmInfo, FilmPreview, PromoFilm, SimilarFilmInfo} from '../api/interfaces.ts';
+import {AuthInfo, FilmComment, FilmInfo, FilmPreview, PromoFilm, FilmShortInfo} from '../api/interfaces.ts';
 import {AxiosInstance} from 'axios';
 import {ApiRoutes} from '../api/apiRoutes.ts';
 import {StoreState} from './reducer.ts';
@@ -63,9 +63,34 @@ export const postComment = createAsyncThunk<boolean, {filmId: string; comment: s
   }
 );
 
-export const getSimilarFilms = createAsyncThunk<SimilarFilmInfo[], string, Config>('get-similar-films',
+export const getSimilarFilms = createAsyncThunk<FilmShortInfo[], string, Config>('get-similar-films',
   async (filmId, {extra: api}) => {
-    const {data} = await api.get<SimilarFilmInfo[]>(`${ApiRoutes.FilmInfo}/${filmId}/similar`);
+    const {data} = await api.get<FilmShortInfo[]>(`${ApiRoutes.FilmInfo}/${filmId}/similar`);
     return data;
+  }
+);
+
+export const getMyFilms = createAsyncThunk<void, undefined, Config>('get-my-films',
+  async (_, {dispatch, extra: api, getState}) => {
+    const state = getState();
+    if (!state.authInfo) {
+      return;
+    }
+    const {data} = await api.get<FilmShortInfo[]>(
+      ApiRoutes.MyFilms,
+      {headers: {'X-Token': state.authInfo.token}}
+    );
+    dispatch(setMyFilmsAction(data));
+  }
+);
+
+export const setMyFilmStatus = createAsyncThunk<void, {filmId: string; isFavorite: boolean}, Config>('set-my-film-status',
+  async ({filmId, isFavorite}, {dispatch, extra: api, getState}) => {
+    const state = getState();
+    if (!state.authInfo) {
+      return;
+    }
+    await api.post(`${ApiRoutes.MyFilms}/${filmId}/${isFavorite ? 1 : 0}`, {}, {headers: {'X-Token': state.authInfo.token}});
+    await dispatch(getMyFilms());
   }
 );

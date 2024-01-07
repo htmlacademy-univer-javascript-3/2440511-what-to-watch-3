@@ -7,7 +7,7 @@ import {Player} from './player/player.tsx';
 import {NotFound} from './not-found/not-found.tsx';
 import {PrivateRoute} from './private-route/private-route.tsx';
 import {useEffect} from 'react';
-import {getAllFilms, getPromoFilm} from '../redux/api-action.ts';
+import {getAllFilms, getMyFilms, getPromoFilm} from '../redux/api-action.ts';
 import {useMyDispatch} from '../redux/hooks.ts';
 import {Loader} from '@skbkontur/react-ui';
 import {useSelector} from 'react-redux';
@@ -24,6 +24,7 @@ export function App() {
       dispatch(setIsLoadingAction(true));
       await dispatch(getAllFilms());
       await dispatch(getPromoFilm());
+      await dispatch(getMyFilms());
       dispatch(setIsLoadingAction(false));
     }
 
