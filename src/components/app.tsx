@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {StoreState} from '../redux/reducer.ts';
 import {setIsLoadingAction} from '../redux/action.ts';
 import {AddReview} from './add-review/add-review.tsx';
+import {AppRoutes} from '../constants/app-routse.ts';
 
 export function App() {
   const dispatch = useMyDispatch();
@@ -36,11 +37,11 @@ export function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home/>}/>
-          <Route path='/login' element={<SignIn/>}/>
-          <Route path='/mylist' element={<PrivateRoute><MyList/></PrivateRoute>}/>
-          <Route path='/films/:id' element={<MoviePage/>}/>
-          <Route path='/films/:id/review' element={<PrivateRoute><AddReview/></PrivateRoute>}/>
-          <Route path='/player/:id' element={<Player/>}/>
+          <Route path={AppRoutes.Login} element={<SignIn/>}/>
+          <Route path={AppRoutes.MyList} element={<PrivateRoute><MyList/></PrivateRoute>}/>
+          <Route path={`${AppRoutes.Films}/:id`} element={<MoviePage/>}/>
+          <Route path={`${AppRoutes.Films}/:id${AppRoutes.Review}`} element={<PrivateRoute><AddReview/></PrivateRoute>}/>
+          <Route path={`${AppRoutes.Player}/:id`} element={<Player/>}/>
           <Route path='*' element={<NotFound/>}/>
         </Routes>
       </BrowserRouter>

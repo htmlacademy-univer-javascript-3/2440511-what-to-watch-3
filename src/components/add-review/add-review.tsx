@@ -1,17 +1,18 @@
 import {AddReviewForm} from './form/add-review-form.tsx';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {FilmInfo} from '../../api/interfaces.ts';
 import {getFilmInfo} from '../../redux/api-action.ts';
 import {useMyDispatch} from '../../redux/hooks.ts';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 export function AddReview(){
   const {id} = useParams<{id: string}>();
   const [filmInfo, setFilmInfo] = useState<FilmInfo>();
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
 
   useEffect(() => {
     dispatch(getFilmInfo(id ?? '')).then(x => {
@@ -19,7 +20,7 @@ export function AddReview(){
       if (data) {
         setFilmInfo(data);
       } else {
-        navigate('/not-found');
+        navigate.toNotFound();
       }
     });
   }, []);

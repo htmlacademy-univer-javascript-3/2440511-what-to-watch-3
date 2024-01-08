@@ -1,8 +1,9 @@
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {useMyDispatch} from '../../redux/hooks.ts';
 import {useEffect, useState} from 'react';
 import {FilmInfo} from '../../api/interfaces.ts';
 import {getFilmInfo} from '../../redux/api-action.ts';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 const playerId = 'player';
@@ -31,7 +32,7 @@ export function Player(){
   const {id} = useParams<{id: string}>();
   const [filmInfo, setFilmInfo] = useState<FilmInfo>();
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
 
   useEffect(() => {
     async function setup(){
@@ -74,7 +75,7 @@ export function Player(){
   };
 
   const onExitButtonClick = () => {
-    navigate(`/films/${id ?? ''}`);
+    navigate.toFilm(id ?? '');
   };
 
   return (

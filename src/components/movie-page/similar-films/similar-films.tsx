@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {FilmShortInfo} from '../../../api/interfaces.ts';
 import {useMyDispatch} from '../../../redux/hooks.ts';
 import {getSimilarFilms} from '../../../redux/api-action.ts';
-import {useNavigate} from "react-router-dom";
+import {useMyNavigate} from '../../../helpers/my-navigate.ts';
 
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 export function SimilarFilms({filmId}: Props){
   const [films, setFilms] = useState<FilmShortInfo[]>([]);
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
 
   useEffect(() => {
     async function setup() {
@@ -23,10 +23,6 @@ export function SimilarFilms({filmId}: Props){
     void setup();
   }, [filmId]);
 
-  const goToFilm = (id: string) => {
-    navigate(`/films/${id}`);
-  };
-
   return (
     <section className="catalog catalog--like-this">
       <h2 className="catalog__title">More like this</h2>
@@ -34,7 +30,7 @@ export function SimilarFilms({filmId}: Props){
       <div className="catalog__films-list">
         {
           films.map(film => (
-            <article key={film.id} className="small-film-card catalog__films-card" onClick={() => goToFilm(film.id)}>
+            <article key={film.id} className="small-film-card catalog__films-card" onClick={() => navigate.toFilm(film.id)}>
               <div className="small-film-card__image">
                 <img src={film.previewImage} alt={film.name} width="280" height="175"/>
               </div>

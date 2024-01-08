@@ -1,6 +1,6 @@
 import {VideoPlayer} from '../video-player/video-player.tsx';
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 export function FilmCard({filmId, filmTitle, imgName, previewVideoLink, onMouseEnter}: Props) {
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
 
 
   const onMouseEnterInternal = () => {
@@ -31,7 +31,7 @@ export function FilmCard({filmId, filmTitle, imgName, previewVideoLink, onMouseE
   };
 
   const onClick = () => {
-    navigate(`/films/${ filmId}`);
+    navigate.toFilm(filmId);
   };
 
   return (

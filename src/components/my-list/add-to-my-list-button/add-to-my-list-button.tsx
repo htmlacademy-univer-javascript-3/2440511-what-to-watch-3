@@ -4,7 +4,8 @@ import {FilmShortInfo} from '../../../api/interfaces.ts';
 import {useState} from 'react';
 import {useMyDispatch} from '../../../redux/hooks.ts';
 import {setMyFilmStatus} from '../../../redux/api-action.ts';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
+import {useMyNavigate} from '../../../helpers/my-navigate.ts';
 
 
 interface Props {
@@ -16,7 +17,7 @@ export function AddToMyListButton({filmId}: Props){
   const myList = useSelector<StoreState, FilmShortInfo[]>(x => x.myList);
   const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   const location = useLocation();
 
   const isFilmInMyList = () => !!myList.find(x => x.id === filmId);
@@ -24,7 +25,7 @@ export function AddToMyListButton({filmId}: Props){
   const onClick = () => {
     async function func(){
       if (!isAuth) {
-        navigate(`/login?referer=${location.pathname}`);
+        navigate.toLogin(location.pathname);
       }
 
       setIsDisabled(true);

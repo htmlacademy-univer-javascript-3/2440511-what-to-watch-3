@@ -4,20 +4,21 @@ import {MoviePageTabType} from './tabs/movie-page-tab-type.tsx';
 import {MoviePageOverviewTab} from './tabs/overview/movie-page-overview-tab.tsx';
 import {MoviePageDetailsTab} from './tabs/details/movie-page-details-tab.tsx';
 import {MoviePageReviewsTab} from './tabs/reviews/movie-page-reviews-tab.tsx';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {FilmInfo} from '../../api/interfaces.ts';
 import {useMyDispatch} from '../../redux/hooks.ts';
 import {getFilmInfo} from '../../redux/api-action.ts';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 import {SimilarFilms} from './similar-films/similar-films.tsx';
 import {AddToMyListButton} from '../my-list/add-to-my-list-button/add-to-my-list-button.tsx';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 export function MoviePage(){
   const [activeTab, setActiveTab] = useState(MoviePageTabType.Overview);
   const [filmInfo, setFilmInfo] = useState<FilmInfo>();
   const {id} = useParams<{id: string}>();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   const dispatch = useMyDispatch();
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export function MoviePage(){
       if (data) {
         setFilmInfo(data);
       } else {
-        navigate('/not-found');
+        navigate.toNotFound();
       }
     });
   }, [id]);
@@ -35,11 +36,11 @@ export function MoviePage(){
     if (!filmInfo) {
       return;
     }
-    navigate(`/films/${filmInfo.id}/review`);
+    navigate.toFilmReview(filmInfo.id);
   };
 
   const goToHome = () => {
-    navigate('/');
+    navigate.toHome();
   };
 
   return (
@@ -74,7 +75,7 @@ export function MoviePage(){
 
               <div className="film-card__buttons">
                 {id &&
-                  <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${ id}`)}>
+                  <button className="btn btn--play film-card__button" type="button" onClick={() => navigate.toPlayer(id)}>
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use xlinkHref="#play-s"></use>
                     </svg>

@@ -1,7 +1,8 @@
 import {useState} from 'react';
 import {useMyDispatch} from '../../redux/hooks.ts';
 import {login} from '../../redux/api-action.ts';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 export function SignIn(){
@@ -9,14 +10,14 @@ export function SignIn(){
   const [pass, setPass] = useState('');
 
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   const [queryParams,] = useSearchParams();
 
   const onSubmit = () => {
     dispatch(login({email: email, password: pass})).then(x => {
       if (x.payload) {
         const location = queryParams.get('referer') ?? '/';
-        navigate(location);
+        navigate.to(location);
       } else {
         // eslint-disable-next-line no-alert
         alert('Ошибка авторизации');

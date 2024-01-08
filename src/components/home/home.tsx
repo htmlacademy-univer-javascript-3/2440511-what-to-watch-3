@@ -1,14 +1,14 @@
-import {useNavigate} from 'react-router-dom';
 import {FilmsByGenrePanel} from './films-by-genre-panel/films-by-genre-panel.tsx';
 import {useSelector} from 'react-redux';
 import {StoreState} from '../../redux/reducer.ts';
 import {PromoFilm} from '../../api/interfaces.ts';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 import {AddToMyListButton} from '../my-list/add-to-my-list-button/add-to-my-list-button.tsx';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 export function Home(){
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   const promoFilm = useSelector<StoreState, PromoFilm | undefined>((x) => x.promoFilm);
 
 
@@ -48,7 +48,7 @@ export function Home(){
 
               <div className="film-card__buttons">
                 {promoFilm &&
-                  <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${promoFilm.id}`)}>
+                  <button className="btn btn--play film-card__button" type="button" onClick={() => navigate.toPlayer(promoFilm.id)}>
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use xlinkHref="#play-s"></use>
                     </svg>

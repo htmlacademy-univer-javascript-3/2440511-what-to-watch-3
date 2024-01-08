@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useMyDispatch} from '../../../redux/hooks.ts';
-import {useNavigate} from 'react-router-dom';
 import {postComment} from '../../../redux/api-action.ts';
+import {useMyNavigate} from '../../../helpers/my-navigate.ts';
 
 interface RatingStarProps {
   indexNumber: number;
@@ -26,13 +26,13 @@ export function AddReviewForm({filmId}: Props){
   const [rating, setRating] = useState(5);
   const [text, setText] = useState('');
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
 
   const onSubmit = () => {
     dispatch(postComment({filmId: filmId, comment: text, rating: rating}))
       .then((x) => {
         if (x.payload) {
-          navigate(`/films/${ filmId}`);
+          navigate.toFilm(filmId);
         } else {
           // eslint-disable-next-line no-alert
           alert('error, try again');

@@ -1,13 +1,13 @@
 import {FilmShortInfo} from '../../api/interfaces.ts';
 import {useSelector} from 'react-redux';
 import {StoreState} from '../../redux/reducer.ts';
-import {useNavigate} from 'react-router-dom';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 export function MyList(){
   const filmsData = useSelector<StoreState, FilmShortInfo[]>((x) => x.myList);
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
 
   return (
     <div className="user-page">
@@ -32,7 +32,7 @@ export function MyList(){
             filmsData.map((film) =>
               (
                 <article key={film.name} className="small-film-card catalog__films-card"
-                  onClick={() => navigate(`/films/${film.id}`)}
+                  onClick={() => navigate.toFilm(film.id)}
                 >
                   <div className="small-film-card__image">
                     <img src={film.previewImage}
