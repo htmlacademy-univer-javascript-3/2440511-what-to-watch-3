@@ -1,33 +1,23 @@
-import {FilmPreview} from '../../api/interfaces.ts';
+import {FilmShortInfo} from '../../api/interfaces.ts';
 import {useSelector} from 'react-redux';
 import {StoreState} from '../../redux/reducer.ts';
+import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
+import {Logo} from '../logo/logo.tsx';
+import {FooterLogo} from '../logo/footer/footer-logo.tsx';
 
 
 export function MyList(){
-  const filmsData = useSelector<StoreState, FilmPreview[]>((x) => x.allFilms);
+  const filmsData = useSelector<StoreState, FilmShortInfo[]>((x) => x.myList);
+  const navigate = useMyNavigate();
 
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
-        <div className="logo">
-          <a href="/" className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <Logo/>
 
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
-        <ul className="user-block">
-          <li className="user-block__item">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-            </div>
-          </li>
-          <li className="user-block__item">
-            <a className="user-block__link">Sign out</a>
-          </li>
-        </ul>
+        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{filmsData.length}</span></h1>
+        <UserSignBlock/>
       </header>
 
       <section className="catalog">
@@ -35,17 +25,19 @@ export function MyList(){
 
         <div className="catalog__films-list">
           {
-            filmsData.map((x) =>
+            filmsData.map((film) =>
               (
-                <article key={x.name} className="small-film-card catalog__films-card">
+                <article key={film.name} className="small-film-card catalog__films-card"
+                  onClick={() => navigate.toFilm(film.id)}
+                >
                   <div className="small-film-card__image">
-                    <img src={x.previewImage}
-                      alt={x.name} width="280" height="175"
+                    <img src={film.previewImage}
+                      alt={film.name} width="280" height="175"
                     />
                   </div>
                   <h3 className="small-film-card__title">
-                    <a className="small-film-card__link" href="film-page.html">
-                      {x.name}
+                    <a className="small-film-card__link">
+                      {film.name}
                     </a>
                   </h3>
                 </article>
@@ -56,13 +48,7 @@ export function MyList(){
       </section>
 
       <footer className="page-footer">
-        <div className="logo">
-          <a href="main.html" className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <FooterLogo/>
 
         <div className="copyright">
           <p>© 2019 What to watch Ltd.</p>

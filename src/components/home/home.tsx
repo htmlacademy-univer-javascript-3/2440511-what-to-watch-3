@@ -1,13 +1,14 @@
-import {useNavigate} from 'react-router-dom';
 import {FilmsByGenrePanel} from './films-by-genre-panel/films-by-genre-panel.tsx';
 import {useSelector} from 'react-redux';
 import {StoreState} from '../../redux/reducer.ts';
 import {PromoFilm} from '../../api/interfaces.ts';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
+import {AddToMyListButton} from '../my-list/add-to-my-list-button/add-to-my-list-button.tsx';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 export function Home(){
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   const promoFilm = useSelector<StoreState, PromoFilm | undefined>((x) => x.promoFilm);
 
 
@@ -46,19 +47,14 @@ export function Home(){
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate('/player/1')}>
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={() => navigate('/mylist')}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                {promoFilm &&
+                  <button className="btn btn--play film-card__button" type="button" onClick={() => navigate.toPlayer(promoFilm.id)}>
+                    <svg viewBox="0 0 19 19" width="19" height="19">
+                      <use xlinkHref="#play-s"></use>
+                    </svg>
+                    <span>Play</span>
+                  </button>}
+                {promoFilm && <AddToMyListButton filmId={promoFilm.id}/>}
               </div>
             </div>
           </div>

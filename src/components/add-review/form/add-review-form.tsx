@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useMyDispatch} from '../../../redux/hooks.ts';
-import {useNavigate} from 'react-router-dom';
 import {postComment} from '../../../redux/api-action.ts';
+import {useMyNavigate} from '../../../helpers/my-navigate.ts';
 
 interface RatingStarProps {
   indexNumber: number;
@@ -26,19 +26,21 @@ export function AddReviewForm({filmId}: Props){
   const [rating, setRating] = useState(5);
   const [text, setText] = useState('');
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
 
   const onSubmit = () => {
     dispatch(postComment({filmId: filmId, comment: text, rating: rating}))
       .then((x) => {
         if (x.payload) {
-          navigate('/');
+          navigate.toFilm(filmId);
         } else {
           // eslint-disable-next-line no-alert
           alert('error, try again');
         }
       });
   };
+
+  const isButtonDisabled = () => text.length < 50 || text.length > 400;
 
   return (
     <div className="add-review">
@@ -55,7 +57,7 @@ export function AddReviewForm({filmId}: Props){
         <div className="add-review__text">
           <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={text} onChange={(event) => setText(event.target.value)}></textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" onClick={onSubmit}>Post</button>
+            <button className="add-review__btn" type="submit" onClick={onSubmit} disabled={isButtonDisabled()}>Post</button>
           </div>
         </div>
       </div>

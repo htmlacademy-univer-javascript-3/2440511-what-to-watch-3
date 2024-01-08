@@ -4,5 +4,6 @@ export const ApiRoutes = {
   PromoFilm: '/promo',
   Login: '/login',
   FilmInfo: '/films',
-  Comments: '/comments'
+  Comments: '/comments',
+  MyFilms: '/favorite'
 };

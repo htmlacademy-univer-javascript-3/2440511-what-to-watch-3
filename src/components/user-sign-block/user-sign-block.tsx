@@ -3,19 +3,20 @@ import {useSelector} from 'react-redux';
 import {StoreState} from '../../redux/reducer.ts';
 import {AuthInfo} from '../../api/interfaces.ts';
 import {useMyDispatch} from '../../redux/hooks.ts';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
 
 
 export function UserSignBlock(){
   const authInfo = useSelector<StoreState, AuthInfo | undefined>(x => x.authInfo);
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   const location = useLocation();
 
   return (
     <ul className="user-block">
       {authInfo &&
-        <li className="user-block__item">
+        <li className="user-block__item" onClick={() => navigate.toMyList()}>
           <div className="user-block__avatar">
             <img src={authInfo.avatarUrl} alt="User avatar" width="63" height="63"/>
           </div>
@@ -24,7 +25,7 @@ export function UserSignBlock(){
         if (authInfo) {
           dispatch(setAuthInfoAction(undefined));
         }
-        navigate(`/login?referer=${location.pathname}`);
+        navigate.toLogin(location.pathname);
       }}
       >
         <a className="user-block__link">Sign {authInfo ? 'out' : 'in'}</a>

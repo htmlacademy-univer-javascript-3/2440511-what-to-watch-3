@@ -1,7 +1,9 @@
 import {useState} from 'react';
 import {useMyDispatch} from '../../redux/hooks.ts';
 import {login} from '../../redux/api-action.ts';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
+import {useMyNavigate} from '../../helpers/my-navigate.ts';
+import {FooterLogo} from '../logo/footer/footer-logo.tsx';
 
 
 export function SignIn(){
@@ -9,14 +11,14 @@ export function SignIn(){
   const [pass, setPass] = useState('');
 
   const dispatch = useMyDispatch();
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   const [queryParams,] = useSearchParams();
 
   const onSubmit = () => {
     dispatch(login({email: email, password: pass})).then(x => {
       if (x.payload) {
         const location = queryParams.get('referer') ?? '/';
-        navigate(location);
+        navigate.to(location);
       } else {
         // eslint-disable-next-line no-alert
         alert('Ошибка авторизации');
@@ -55,13 +57,7 @@ export function SignIn(){
       </div>
 
       <footer className="page-footer">
-        <div className="logo">
-          <a href="main.html" className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <FooterLogo/>
 
         <div className="copyright">
           <p>© 2019 What to watch Ltd.</p>

@@ -1,23 +1,26 @@
 import {FilmInfo} from '../../../../api/interfaces.ts';
 
+const convertRatingToString = (rating: number) => {
+  if (rating >= 10) {
+    return 'Awesome';
+  } else if (rating >= 8) {
+    return 'Very good';
+  } else if (rating >= 5) {
+    return 'Good';
+  } else if (rating >= 3) {
+    return 'Normal';
+  }
+  return 'Bad';
+};
 
 export function MoviePageOverviewTab({rating, director, scoresCount, starring, description}: FilmInfo){
-
-  const ratingToString = () => {
-    if (rating >= 8) {
-      return 'Very good';
-    } else if (rating >= 4) {
-      return 'Normal';
-    }
-    return 'Bad';
-  };
 
   return (
     <>
       <div className="film-rating">
         <div className="film-rating__score">{rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{ratingToString()}</span>
+          <span className="film-rating__level">{convertRatingToString(rating)}</span>
           <span className="film-rating__count">{scoresCount} ratings</span>
         </p>
       </div>
