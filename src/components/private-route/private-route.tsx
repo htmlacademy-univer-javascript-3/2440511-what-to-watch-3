@@ -2,7 +2,7 @@ import {Navigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {AuthInfo} from '../../api/interfaces.ts';
 import {StoreState} from '../../redux/reducer.ts';
-import {AppRoutes} from "../../constants/app-routse.ts";
+import {AppRoutes} from '../../constants/app-routse.ts';
 
 
 interface Props {

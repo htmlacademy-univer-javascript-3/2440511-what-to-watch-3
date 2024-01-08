@@ -6,6 +6,7 @@ import {getFilmInfo} from '../../redux/api-action.ts';
 import {useMyDispatch} from '../../redux/hooks.ts';
 import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 import {useMyNavigate} from '../../helpers/my-navigate.ts';
+import {Logo} from '../logo/logo.tsx';
 
 
 export function AddReview(){
@@ -35,18 +36,12 @@ export function AddReview(){
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
-          <div className="logo">
-            <a href="main.html" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo/>
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{filmInfo?.name}</a>
+                <a className="breadcrumbs__link">{filmInfo?.name}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
