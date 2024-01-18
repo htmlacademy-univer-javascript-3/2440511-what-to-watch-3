@@ -12,6 +12,8 @@ import {UserSignBlock} from '../user-sign-block/user-sign-block.tsx';
 import {SimilarFilms} from './similar-films/similar-films.tsx';
 import {AddToMyListButton} from '../my-list/add-to-my-list-button/add-to-my-list-button.tsx';
 import {useMyNavigate} from '../../helpers/my-navigate.ts';
+import {useSelector} from 'react-redux';
+import {StoreState} from '../../redux/reducer.ts';
 
 
 export function MoviePage(){
@@ -20,6 +22,7 @@ export function MoviePage(){
   const {id} = useParams<{id: string}>();
   const navigate = useMyNavigate();
   const dispatch = useMyDispatch();
+  const isAuth = useSelector<StoreState, boolean>(x => x.authInfo !== undefined);
 
   useEffect(() => {
     dispatch(getFilmInfo(id ?? '')).then(x => {
@@ -82,7 +85,7 @@ export function MoviePage(){
                     <span>Play</span>
                   </button>}
                 {filmInfo && <AddToMyListButton filmId={filmInfo.id}/>}
-                <a className="btn film-card__button" onClick={onAddReviewButtonClick}>Add review</a>
+                {isAuth && <a className="btn film-card__button" onClick={onAddReviewButtonClick}>Add review</a>}
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@ export function MoviePageOverviewTab({rating, director, scoresCount, starring, d
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{rating}</div>
+        <div className="film-rating__score">{rating.toFixed(1)}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{convertRatingToString(rating)}</span>
           <span className="film-rating__count">{scoresCount} ratings</span>
