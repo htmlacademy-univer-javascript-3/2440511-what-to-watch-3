@@ -17,7 +17,7 @@ export function SimilarFilms({filmId}: Props){
   useEffect(() => {
     async function setup() {
       const filmsData = (await dispatch(getSimilarFilms(filmId))).payload as FilmShortInfo[];
-      setFilms(filmsData);
+      setFilms(filmsData.slice(0, 4));
     }
 
     void setup();

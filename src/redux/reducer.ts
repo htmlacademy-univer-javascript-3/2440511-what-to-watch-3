@@ -8,6 +8,7 @@ import {
 } from './action.ts';
 import {AuthInfo, FilmPreview, FilmShortInfo, PromoFilm} from '../api/interfaces.ts';
 import {ALL_GENRES_NAME} from '../constants/genres-constants.ts';
+import {getAuthInfo, setAuthInfo} from '../helpers/auth-storage.ts';
 
 export interface StoreState {
   selectedGenre: string;
@@ -26,7 +27,8 @@ const initialState: StoreState = {
   filmsByGenre: [],
   allFilms: [],
   isLoading: false,
-  myList: []
+  myList: [],
+  authInfo: getAuthInfo()
 };
 
 export const updateStore = createReducer<StoreState>(initialState, (builder) => {
@@ -37,13 +39,14 @@ export const updateStore = createReducer<StoreState>(initialState, (builder) => 
     })
     .addCase(setAllFilmsAction, (state, action) => {
       state.allFilms = action.payload;
-      state.allGenres = [ALL_GENRES_NAME].concat(Array.from(new Set(action.payload.map((x) => x.genre))));
+      state.allGenres = [ALL_GENRES_NAME].concat(Array.from(new Set(action.payload.map((x) => x.genre)))).slice(0, 9);
     })
     .addCase(setIsLoadingAction, (state, action) => {
       state.isLoading = action.payload;
     })
     .addCase(setAuthInfoAction, (state, action) => {
       state.authInfo = action.payload;
+      setAuthInfo(action.payload as AuthInfo);
     })
     .addCase(setMyFilmsAction, (state, action) => {
       state.myList = action.payload;

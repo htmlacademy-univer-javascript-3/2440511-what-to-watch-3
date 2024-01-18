@@ -1,9 +1,12 @@
 import {useState} from 'react';
 import {useMyDispatch} from '../../redux/hooks.ts';
 import {login} from '../../redux/api-action.ts';
-import {Link, useSearchParams} from 'react-router-dom';
+import {Link, Navigate, useSearchParams} from 'react-router-dom';
 import {useMyNavigate} from '../../helpers/my-navigate.ts';
 import {FooterLogo} from '../logo/footer/footer-logo.tsx';
+import {useSelector} from 'react-redux';
+import {StoreState} from '../../redux/reducer.ts';
+import {AppRoutes} from '../../constants/app-routse.ts';
 
 
 export function SignIn(){
@@ -13,6 +16,7 @@ export function SignIn(){
   const dispatch = useMyDispatch();
   const navigate = useMyNavigate();
   const [queryParams,] = useSearchParams();
+  const isAuth = useSelector<StoreState, boolean>(x => !!x.authInfo);
 
   const onSubmit = () => {
     dispatch(login({email: email, password: pass})).then(x => {
@@ -27,42 +31,43 @@ export function SignIn(){
   };
 
   return (
-    <div className="user-page">
-      <header className="page-header user-page__head">
-        <div className="logo">
-          <Link to={'/'} className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </Link>
+    isAuth ? <Navigate to={AppRoutes.Home}/> :
+      <div className="user-page">
+        <header className="page-header user-page__head">
+          <div className="logo">
+            <Link to={'/'} className="logo__link">
+              <span className="logo__letter logo__letter--1">W</span>
+              <span className="logo__letter logo__letter--2">T</span>
+              <span className="logo__letter logo__letter--3">W</span>
+            </Link>
+          </div>
+
+          <h1 className="page-title user-page__title">Sign in</h1>
+        </header>
+
+        <div className="sign-in user-page__content">
+          <div className="sign-in__fields">
+            <div className="sign-in__field">
+              <input className="sign-in__input" type="email" name="user-email" placeholder="Email address" value={email} onChange={x => setEmail(x.target.value)}/>
+              <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+            </div>
+            <div className="sign-in__field">
+              <input className="sign-in__input" type="password" name="user-password" placeholder="Password" value={pass} onChange={x => setPass(x.target.value)}/>
+              <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
+            </div>
+          </div>
+          <div className="sign-in__submit">
+            <button className="sign-in__btn" type={'submit'} onClick={onSubmit}>Sign in</button>
+          </div>
         </div>
 
-        <h1 className="page-title user-page__title">Sign in</h1>
-      </header>
+        <footer className="page-footer">
+          <FooterLogo/>
 
-      <div className="sign-in user-page__content">
-        <div className="sign-in__fields">
-          <div className="sign-in__field">
-            <input className="sign-in__input" type="email" name="user-email" placeholder="Email address" value={email} onChange={x => setEmail(x.target.value)}/>
-            <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+          <div className="copyright">
+            <p>© 2019 What to watch Ltd.</p>
           </div>
-          <div className="sign-in__field">
-            <input className="sign-in__input" type="password" name="user-password" placeholder="Password" value={pass} onChange={x => setPass(x.target.value)}/>
-            <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
-          </div>
-        </div>
-        <div className="sign-in__submit">
-          <button className="sign-in__btn" type={'submit'} onClick={onSubmit}>Sign in</button>
-        </div>
+        </footer>
       </div>
-
-      <footer className="page-footer">
-        <FooterLogo/>
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
-    </div>
   );
 }

@@ -10,11 +10,13 @@ import {getAllFilms} from '../../../redux/api-action.ts';
 import {useMyDispatch} from '../../../redux/hooks.ts';
 
 
+const defaultFilmsCountOnGenreTab = 8;
+
 export function FilmsByGenrePanel(){
   const [activeGenre, setActiveGenre] = useState<string>('');
   const [genres, setGenres] = useState<string[]>([]);
   const [activeFilms, setActiveFilms] = useState<FilmPreview[]>([]);
-  const [filmsCount, setFilmsCount] = useState(8);
+  const [filmsCount, setFilmsCount] = useState(defaultFilmsCountOnGenreTab);
 
   const dispatch = useMyDispatch();
   const storeState = useSelector<StoreState, StoreState>((x) => x);
@@ -27,6 +29,7 @@ export function FilmsByGenrePanel(){
   const onGenreTabClick = (genre: string) => {
     dispatch(changeGenreAction(genre));
     updateGenreAndFilmsFromStore();
+    setFilmsCount(defaultFilmsCountOnGenreTab);
   };
 
   useEffect(() => {

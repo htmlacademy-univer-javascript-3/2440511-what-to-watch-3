@@ -8,6 +8,11 @@ interface Props {
   filmId: string;
 }
 
+function formatReviewDate(date: Date) {
+  const month = date.toLocaleString('en', {month: 'long'});
+  return `${month} ${date.getDay()}, ${date.getFullYear()}`;
+}
+
 export function MoviePageReviewsTab({filmId}: Props){
   const [comments, setComments] = useState<FilmComment[]>([]);
   const dispatch = useMyDispatch();
@@ -24,7 +29,7 @@ export function MoviePageReviewsTab({filmId}: Props){
 
         <footer className="review__details">
           <cite className="review__author">{comment.user}</cite>
-          <time className="review__date" dateTime={comment.date}>{new Date(comment.date).toLocaleString()}</time>
+          <time className="review__date" dateTime={comment.date}>{formatReviewDate(new Date(comment.date))}</time>
         </footer>
       </blockquote>
 
